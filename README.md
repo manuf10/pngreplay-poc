@@ -14,7 +14,7 @@ FYI I got the idea from this podcast about game engine programming https://www.y
 
 ## Requirements
 
-- On exception (or a failed assertion, like “player can’t have HP = 0 and be alive”), you must be able to catch the error and run some code before the process exits (to create the said PNG). In C# I used the AppDomain.CurrentDomain.UnhandledException event and it seems to work. 
+- On exception (or a failed assertion, like “player can’t have HP = 0 and be alive”), you must be able to catch the error and run some code before the process exits (to create the said PNG). In C# `I used the AppDomain.CurrentDomain.UnhandledException` event and it seems to work. 
 Note that some exceptions, like stack overflows, can’t be caught AFAIK, and others might corrupt the game’s memory, potentially making the previously copied game state data invalid, so keep that in mind. In C++ I think the way to go is structured exception handling.
 - Always have a copy of the previous frame’s state and the current frame’s inputs, every frame, and be able to serialize/deserialize them in any format you want later. We need the previous frame’s state because we want to reproduce the exact same chain of events that led to the error. Copying the game state every frame will obviously add some overhead, so keep that in mind. It would be useful to make this feature toggleable.
 - The game simulation should be deterministic (to increase the chances of reproducing the error). If the game uses a random number generator, then its state should also be serialized somehow, in order to get the same random numbers when we replay. 
