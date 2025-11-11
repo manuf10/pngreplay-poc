@@ -23,9 +23,9 @@ Fixed timestep could be necessary as well. If not possible, I guess one could sa
 PNG chunks have 4 letter case sensitive ASCII names, and the case of these letters is a bit field that gives the PNG decoders information about the chunk. I chose to use “gaMe” and it worked. You can read more on [Wikipedia](https://en.wikipedia.org/wiki/PNG#%22Chunks%22_within_the_file).
 
 ## Other considerations
-- The viability will depend on the tools used to make the game, and the type of the game. I’m not really sure how difficult or tedious it would be to implement this in a Unity, Unreal or Godot game.
+- The viability will depend on the tools used to make the game, and what kind of game it is. I’m not really sure how difficult or tedious it would be to implement this in a Unity, Unreal or Godot game.
 - You might want to save any additional information that you consider useful, such as the build version, an error message, a stacktrace, etc.
-- Some image hosting services (such as Imgur) and tools may strip non-critical data from PNGs. The good news is that I tested sharing over Discord, and it kept the data :), the max file size without Nitro is 10MB though, so Google Drive might be a better option. One could take it a step further and automate the sharing of the file part.
+- Some image hosting services (such as Imgur) and tools may strip non-critical data from PNGs. The good news is that I tested sharing it over Discord and it kept the data :), the max file size without Nitro is 10MB though, so Google Drive might be a better option. One could take this a step further and make the game itself post the PNG via Discord, or whatever.
 
 ## Some pseudocode
 
@@ -52,10 +52,9 @@ function replay_from_png()
 }
 ```
 
-In the frame after loading the game and input state from the PNG, we must skip reading the new input, because we want to use the input we've just restored.
-For this game, it doesn’t make any difference because the crash is always caused by the ball’s own movement, not the player.
+After loading the game and input data from the PNG, we must skip reading inputs for one frame, because we want to use the input state that was registered right before the crash happened (instead of overwriting it with the new input). For this sample in particular, it doesn’t make any difference because the crash is always caused by the ball’s own movement, not the player.
 
-See
+If you want to read the code, see these:
 - `QueuePNGReplay(string gameScreenshotPath)`
 - `OnUnhandledException(object sender, UnhandledExceptionEventArgs e)`
 - `SavePNG(string fileName, string gameStateChunkId = "gaMe")`
